@@ -1,0 +1,11 @@
+test_causal_future_invariance (test_attention.AttentionTests) ... ok
+test_models_match_outputs_and_gradients (test_attention.AttentionTests) ... ok
+test_online_matches_outputs_and_gradients (test_attention.AttentionTests) ... ok
+test_reference_gradcheck (test_attention.AttentionTests) ... ok
+test_transformer_sgd_updates_match (test_attention.AttentionTests) ... ok
+test_uniform_scores_average_values (test_attention.AttentionTests) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.727s
+
+OK

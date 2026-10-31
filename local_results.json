@@ -1,0 +1,199 @@
+{
+  "runtime": "ruby 2.6.10p210 (2022-04-12 revision 67958) [universal.x86_64-darwin21]",
+  "platform": "universal.x86_64-darwin21",
+  "seed": 17,
+  "dtype": "Ruby Float (FP64)",
+  "warmup": 2,
+  "repeats": 7,
+  "scope": "forward CPU interpreter demonstration, not GPU performance",
+  "checks": "known answers, dense/online agreement across tiles, causal future invariance passed",
+  "memory_note": "numeric payload only; Ruby object overhead and process peak not measured",
+  "flash_attention_executed": false,
+  "python_executed": false,
+  "rows": [
+    {
+      "batch": 1,
+      "heads": 1,
+      "length": 31,
+      "dim": 32,
+      "causal": false,
+      "max_abs_error_online_vs_dense": 1.1102230246251565e-16,
+      "dense": {
+        "median_ms": 7.530000060796738,
+        "min_ms": 7.122999988496304,
+        "max_ms": 8.883000118657947,
+        "samples_ms": [
+          7.529000053182244,
+          8.695000084117055,
+          7.122999988496304,
+          8.819999871775508,
+          8.883000118657947,
+          7.530000060796738,
+          7.35200010240078
+        ]
+      },
+      "one_score_matrix_numeric_payload_bytes": 7688
+    },
+    {
+      "batch": 1,
+      "heads": 1,
+      "length": 31,
+      "dim": 32,
+      "causal": true,
+      "max_abs_error_online_vs_dense": 2.220446049250313e-16,
+      "dense": {
+        "median_ms": 6.219000089913607,
+        "min_ms": 6.158999865874648,
+        "max_ms": 9.291999973356724,
+        "samples_ms": [
+          6.454000016674399,
+          6.219000089913607,
+          9.291999973356724,
+          6.36200001463294,
+          6.2049999833106995,
+          6.158999865874648,
+          6.161999888718128
+        ]
+      },
+      "one_score_matrix_numeric_payload_bytes": 7688
+    },
+    {
+      "batch": 1,
+      "heads": 1,
+      "length": 64,
+      "dim": 32,
+      "causal": false,
+      "max_abs_error_online_vs_dense": 2.7755575615628914e-16,
+      "dense": {
+        "median_ms": 34.38599989749491,
+        "min_ms": 32.451000064611435,
+        "max_ms": 43.04899997077882,
+        "samples_ms": [
+          43.04899997077882,
+          38.696000119671226,
+          32.451000064611435,
+          33.96099992096424,
+          34.38599989749491,
+          35.40099994279444,
+          32.77699998579919
+        ]
+      },
+      "one_score_matrix_numeric_payload_bytes": 32768
+    },
+    {
+      "batch": 1,
+      "heads": 1,
+      "length": 64,
+      "dim": 32,
+      "causal": true,
+      "max_abs_error_online_vs_dense": 2.220446049250313e-16,
+      "dense": {
+        "median_ms": 28.716000029817224,
+        "min_ms": 25.923999957740307,
+        "max_ms": 31.873000087216496,
+        "samples_ms": [
+          28.88900018297136,
+          27.575999964028597,
+          31.873000087216496,
+          25.923999957740307,
+          28.716000029817224,
+          27.40700007416308,
+          29.925999930128455
+        ]
+      },
+      "one_score_matrix_numeric_payload_bytes": 32768
+    },
+    {
+      "batch": 1,
+      "heads": 1,
+      "length": 128,
+      "dim": 32,
+      "causal": false,
+      "max_abs_error_online_vs_dense": 1.8041124150158794e-16,
+      "dense": {
+        "median_ms": 133.09299992397428,
+        "min_ms": 128.65599989891052,
+        "max_ms": 142.72200013510883,
+        "samples_ms": [
+          133.39699991047382,
+          128.65599989891052,
+          136.93600008264184,
+          131.40100007876754,
+          142.72200013510883,
+          130.54599985480309,
+          133.09299992397428
+        ]
+      },
+      "one_score_matrix_numeric_payload_bytes": 131072
+    },
+    {
+      "batch": 1,
+      "heads": 1,
+      "length": 128,
+      "dim": 32,
+      "causal": true,
+      "max_abs_error_online_vs_dense": 1.942890293094024e-16,
+      "dense": {
+        "median_ms": 111.92800011485815,
+        "min_ms": 105.75000010430813,
+        "max_ms": 116.90000002272427,
+        "samples_ms": [
+          116.90000002272427,
+          105.75000010430813,
+          115.34699983894825,
+          108.52900007739663,
+          111.92800011485815,
+          110.07799999788404,
+          112.38200007937849
+        ]
+      },
+      "one_score_matrix_numeric_payload_bytes": 131072
+    },
+    {
+      "batch": 1,
+      "heads": 1,
+      "length": 256,
+      "dim": 32,
+      "causal": false,
+      "max_abs_error_online_vs_dense": 1.8041124150158794e-16,
+      "dense": {
+        "median_ms": 514.4240001682192,
+        "min_ms": 508.20499984547496,
+        "max_ms": 558.128000004217,
+        "samples_ms": [
+          508.94700014032423,
+          514.4240001682192,
+          558.128000004217,
+          508.20499984547496,
+          509.9499998614192,
+          517.2839998267591,
+          534.3149998225272
+        ]
+      },
+      "one_score_matrix_numeric_payload_bytes": 524288
+    },
+    {
+      "batch": 1,
+      "heads": 1,
+      "length": 256,
+      "dim": 32,
+      "causal": true,
+      "max_abs_error_online_vs_dense": 1.942890293094024e-16,
+      "dense": {
+        "median_ms": 447.6020000874996,
+        "min_ms": 440.9459999296814,
+        "max_ms": 455.35199996083975,
+        "samples_ms": [
+          443.85500019416213,
+          455.35199996083975,
+          447.8370000142604,
+          445.7290000282228,
+          440.9459999296814,
+          447.6020000874996,
+          449.6740000322461
+        ]
+      },
+      "one_score_matrix_numeric_payload_bytes": 524288
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+# Install the PyTorch build appropriate for your CPU/CUDA/ROCm environment.
+torch>=2.2

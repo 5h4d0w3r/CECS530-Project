@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+cpu_results.json
+gpu_results.json
+benchmark_results.json
+environment.txt
+.mplconfig/

@@ -1,0 +1,8 @@
+N=2048 causal=False kernel/forward/dense: 147.528 ms, RSS 297.6 MiB
+N=2048 causal=False kernel/forward/online: 666.634 ms, RSS 172.5 MiB
+N=2048 causal=True kernel/forward/dense: 184.553 ms, RSS 305.6 MiB
+N=2048 causal=True kernel/forward/online: 432.108 ms, RSS 173.0 MiB
+N=4096 causal=False kernel/forward/dense: 943.720 ms, RSS 696.1 MiB
+N=4096 causal=False kernel/forward/online: 2534.508 ms, RSS 188.6 MiB
+N=4096 causal=True kernel/forward/dense: 1272.306 ms, RSS 728.1 MiB
+N=4096 causal=True kernel/forward/online: 1740.057 ms, RSS 189.0 MiB

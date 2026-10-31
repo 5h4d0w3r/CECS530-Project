@@ -1,0 +1,4 @@
+N=512 causal=False kernel/forward/online: 17.290 ms, RSS 159.3 MiB
+N=512 causal=False kernel/forward_backward/online: 141.409 ms, RSS 209.2 MiB
+N=512 causal=True kernel/forward/online: 13.895 ms, RSS 159.5 MiB
+N=512 causal=True kernel/forward_backward/online: 86.228 ms, RSS 202.3 MiB
