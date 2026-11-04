@@ -1,0 +1,10 @@
+weights 228.3 MiB, KV cache 32.0 KiB per token per sequence
+context=  128 batch=  1  TTFT     37.02 ms  decode   8.495 ms/step (p90 9.535)       117 tok/s  no-cache step     34.89 ms  KV    4.97 MiB
+context=  128 batch=  4  TTFT    111.68 ms  decode  18.781 ms/step (p90 19.945)       212 tok/s  no-cache step    111.95 ms  KV   19.88 MiB
+context=  128 batch=  8  TTFT    230.88 ms  decode  21.776 ms/step (p90 24.216)       365 tok/s  no-cache step    236.24 ms  KV   39.75 MiB
+context=  512 batch=  1  TTFT    180.09 ms  decode   9.360 ms/step (p90 10.552)       105 tok/s  no-cache step    160.77 ms  KV   16.97 MiB
+context=  512 batch=  4  TTFT    703.87 ms  decode  23.052 ms/step (p90 25.291)       171 tok/s  no-cache step    677.19 ms  KV   67.88 MiB
+context=  512 batch=  8  TTFT   1375.57 ms  decode  26.281 ms/step (p90 29.216)       287 tok/s  no-cache step   1318.20 ms  KV  135.75 MiB
+context= 1024 batch=  1  TTFT    460.86 ms  decode   9.634 ms/step (p90 10.681)       101 tok/s  no-cache step    467.23 ms  KV   32.97 MiB
+context= 1024 batch=  4  TTFT   1860.35 ms  decode  25.080 ms/step (p90 26.426)       158 tok/s  no-cache step   1959.55 ms  KV  131.88 MiB
+context= 1024 batch=  8  TTFT   4451.06 ms  decode  33.298 ms/step (p90 48.180)       211 tok/s  no-cache step   5440.94 ms  KV  263.75 MiB

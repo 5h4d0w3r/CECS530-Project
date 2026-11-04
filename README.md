@@ -48,6 +48,36 @@ methods. Validate values first; use tolerances rather than bitwise equality.
   Transformer training-step experiments, with isolated-process peak RSS.
 - `run_local.rb`: dependency-free fallback used on the original host.
 - `local_results.json`: actual fallback measurements, including raw timing samples.
+- `generation.py`: token-generation baseline. `TinyLM` (embeddings, Transformer
+  blocks, vocabulary projection), a preallocated `KVCache`, and greedy `generate` with per-step timing.
+- `test_generation.py`: cached decoding must reproduce full causal recomputation.
+- `benchmark_decode.py`: time to first token, per-token decode latency, decode
+  throughput, KV-cache size and the no-cache reference step.
+- `pipeline_model.py`: pipelined decode-attention accelerator. A stage-by-stage
+  functional model, a cycles-per-stage timing model and an in-order pipeline scheduler.
+- `test_pipeline_model.py`: the staged datapath matches dense attention; the
+  scheduler matches the closed-form pipeline equations.
+
+## Token-generation baseline
+
+The kernel benchmarks above time all N tokens at once (prefill). Text generation
+instead runs one decode step per new token: the newest token's query attends to a
+KV cache of every earlier token. Prefill timings divided by N are not per-token
+latency, and generating without a cache re-runs the whole context for every token.
+`generation.py` is the non-pipelined decode baseline that the pipeline model is
+compared against:
+
+```sh
+python -m unittest -v
+python benchmark_decode.py --output decode_results.json
+python pipeline_model.py
+```
+
+Decode is meant to stream weights and the KV cache from main memory. The default
+decode model (width 1024, 4 layers, about 240 MB in FP32) is therefore larger than
+on-chip caches. With the original width-256 model, the weights stayed in cache, and
+decode was limited by arithmetic instead, which misrepresents memory-bound token generation. Weights
+are random, so the generated tokens are meaningless; only the computation is measured.
 
 In an environment with a working Python runtime compatible with your PyTorch
 build (the local run uses Python 3.9.6):
