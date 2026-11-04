@@ -1,4 +1,4 @@
-# Self-attention baseline: a student project framework
+# CECS530-Project: Self-attention baseline framework
 
 Build a correct reference, measure it, then investigate how attention can use
 less memory without changing its mathematical result. The starting experiment
