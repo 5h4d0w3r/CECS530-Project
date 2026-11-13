@@ -144,7 +144,7 @@ def main():
     print('             64 bytes/cycle, 64 MACs/cycle per compute stage, 16 exps/cycle.')
     print()
     headers = ('Context', 'Schedule', 'Latency/token (us)', 'Throughput (tokens/s)',
-               'Utilization: load / score / softmax / accumulate', 'Speedup')
+               'Load', 'Score', 'Softmax', 'Accumulate', 'Speedup')
     rows = []
     for context in (128, 512, 2048, 8192):
         items = decode_items(context, heads=4, head_dim=64, tile=32,
@@ -154,11 +154,11 @@ def main():
         for label, result in (('Non-pipeline', sequential), ('Pipeline', pipelined)):
             latency_us = result['cycles'] / Hardware().clock_hz * 1e6
             throughput = Hardware().clock_hz / result['cycles']
-            utilization = ' / '.join(f'{u * 100:.1f}%'
-                                     for u in result['utilization'])
             speedup = sequential['cycles'] / result['cycles']
             rows.append((f'{context:,}', label, f'{latency_us:.3f}',
-                         f'{throughput:,.0f}', utilization, f'{speedup:.3f}x'))
+                         f'{throughput:,.0f}',
+                         *(f'{u * 100:.1f}%' for u in result['utilization']),
+                         f'{speedup:.3f}x'))
 
     widths = [max(len(headers[i]), *(len(row[i]) for row in rows))
               for i in range(len(headers))]
