@@ -72,6 +72,32 @@ They can also increase temporary memory. This experiment is not a fused GPU kern
 
 ![Tile-size comparisons](tiles.png)
 
+## Pipelined decode-attention simulation
+
+The timing model in `pipeline_model.py` compares an in-order four-stage schedule
+(load, score, softmax, accumulate) with a non-pipelined schedule using the same
+per-stage cycle costs. Each decode step produces one token. The model uses four
+heads, head dimension 64, tile size 32, two bytes per element, a 1 GHz clock,
+64 bytes/cycle for cache loads, 64 MACs/cycle for each compute stage, and 16
+exponentials/cycle. These are hardware assumptions, not measurements from a
+physical accelerator. The scheduler assumes inter-stage buffers never fill.
+
+| Context | Schedule | Latency per token (us) | Throughput (tokens/s) | Utilization: load / score / softmax / accumulate | Speedup vs non-pipeline |
+| ---: | --- | ---: | ---: | --- | ---: |
+| 128 | Non-pipeline | 3.120 | 320,513 | 65.6% / 16.4% / 1.0% / 16.9% | 1.000x |
+| 128 | Pipeline | 2.115 | 472,813 | 96.8% / 24.2% / 1.5% / 25.0% | 1.475x |
+| 512 | Non-pipeline | 12.480 | 80,128 | 65.6% / 16.4% / 1.0% / 16.9% | 1.000x |
+| 512 | Pipeline | 8.259 | 121,080 | 99.2% / 24.8% / 1.5% / 25.6% | 1.511x |
+| 2,048 | Non-pipeline | 49.920 | 20,032 | 65.6% / 16.4% / 1.0% / 16.9% | 1.000x |
+| 2,048 | Pipeline | 32.835 | 30,455 | 99.8% / 24.9% / 1.6% / 25.7% | 1.520x |
+| 8,192 | Non-pipeline | 199.680 | 5,008 | 65.6% / 16.4% / 1.0% / 16.9% | 1.000x |
+| 8,192 | Pipeline | 131.139 | 7,626 | 99.9% / 25.0% / 1.6% / 25.8% | 1.523x |
+
+Latency is modeled cycles divided by the assumed clock; throughput is one token
+per modeled decode step. Pipeline speedup approaches about 1.52x for longer
+contexts under these assumptions. This analytical schedule does not include
+buffer stalls, clock variation, or measured accelerator effects.
+
 ## Synthetic training checks
 
 One Transformer block with 4x feed-forward width, fixed random features and targets,
