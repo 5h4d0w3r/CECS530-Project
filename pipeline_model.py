@@ -143,8 +143,9 @@ def main():
     print('Assumptions: 4 heads, D=64, tile=32, 2 bytes/element, 1 GHz;')
     print('             64 bytes/cycle, 64 MACs/cycle per compute stage, 16 exps/cycle.')
     print()
-    print('| Context | Schedule | Latency per token (us) | Throughput (tokens/s) | Utilization: load / score / softmax / accumulate | Speedup vs non-pipeline |')
-    print('| ---: | --- | ---: | ---: | --- | ---: |')
+    headers = ('Context', 'Schedule', 'Latency/token (us)', 'Throughput (tokens/s)',
+               'Utilization: load / score / softmax / accumulate', 'Speedup')
+    rows = []
     for context in (128, 512, 2048, 8192):
         items = decode_items(context, heads=4, head_dim=64, tile=32,
                              bytes_per_element=2)
@@ -156,8 +157,24 @@ def main():
             utilization = ' / '.join(f'{u * 100:.1f}%'
                                      for u in result['utilization'])
             speedup = sequential['cycles'] / result['cycles']
-            print(f'| {context:,} | {label} | {latency_us:.3f} | '
-                  f'{throughput:,.0f} | {utilization} | {speedup:.3f}x |')
+            rows.append((f'{context:,}', label, f'{latency_us:.3f}',
+                         f'{throughput:,.0f}', utilization, f'{speedup:.3f}x'))
+
+    widths = [max(len(headers[i]), *(len(row[i]) for row in rows))
+              for i in range(len(headers))]
+
+    def format_row(row):
+        return ('| ' + ' | '.join(value.ljust(widths[i])
+                                  if i in (1, 4) else value.rjust(widths[i])
+                                  for i, value in enumerate(row)) + ' |')
+
+    border = '+-' + '-+-'.join('-' * width for width in widths) + '-+'
+    print(border)
+    print(format_row(headers))
+    print(border)
+    for row in rows:
+        print(format_row(row))
+    print(border)
 
 
 if __name__ == '__main__':
