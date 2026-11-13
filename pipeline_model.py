@@ -139,16 +139,25 @@ def decode_metrics(context, heads=4, head_dim=64, tile=32, bytes_per_element=2,
 
 
 def main():
-    tau = stage_cycles(32, 64, 2)
-    print('cycles per (head, tile) item:', dict(zip(STAGES, tau)))
-    print(f'speedup limit sum(tau)/max(tau) = {sum(tau)}/{max(tau)} = {sum(tau) / max(tau):.3f}')
-    header = ['L', 'items', 'T_seq', 'T_pipe', 'speedup'] + ['U_' + s for s in STAGES] + ['us/step']
-    print(' '.join(f'{h:>12}' for h in header))
+    print('Pipelined decode-attention simulation')
+    print('Assumptions: 4 heads, D=64, tile=32, 2 bytes/element, 1 GHz;')
+    print('             64 bytes/cycle, 64 MACs/cycle per compute stage, 16 exps/cycle.')
+    print()
+    print('| Context | Schedule | Latency per token (us) | Throughput (tokens/s) | Utilization: load / score / softmax / accumulate | Speedup vs non-pipeline |')
+    print('| ---: | --- | ---: | ---: | --- | ---: |')
     for context in (128, 512, 2048, 8192):
-        r = decode_metrics(context)
-        row = [r['context'], r['items'], r['sequential_cycles'], r['pipelined_cycles'],
-               f"{r['speedup']:.3f}"] + [f'{u:.3f}' for u in r['utilization'].values()]
-        print(' '.join(f'{x:>12}' for x in row + [f"{r['latency_us']:.1f}"]))
+        items = decode_items(context, heads=4, head_dim=64, tile=32,
+                             bytes_per_element=2)
+        sequential = simulate(items, pipelined=False)
+        pipelined = simulate(items, pipelined=True)
+        for label, result in (('Non-pipeline', sequential), ('Pipeline', pipelined)):
+            latency_us = result['cycles'] / Hardware().clock_hz * 1e6
+            throughput = Hardware().clock_hz / result['cycles']
+            utilization = ' / '.join(f'{u * 100:.1f}%'
+                                     for u in result['utilization'])
+            speedup = sequential['cycles'] / result['cycles']
+            print(f'| {context:,} | {label} | {latency_us:.3f} | '
+                  f'{throughput:,.0f} | {utilization} | {speedup:.3f}x |')
 
 
 if __name__ == '__main__':
