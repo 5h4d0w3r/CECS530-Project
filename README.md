@@ -55,6 +55,8 @@ methods. Validate values first; use tolerances rather than bitwise equality.
   throughput, KV-cache size and the no-cache reference step.
 - `pipeline_model.py`: pipelined decode-attention accelerator. A stage-by-stage
   functional model, a cycles-per-stage timing model and an in-order pipeline scheduler.
+  Uses `tabulate` to print aligned columns for latency, throughput, stage utilization
+  and speedup; install it with the dependencies below.
 - `test_pipeline_model.py`: the staged datapath matches dense attention; the
   scheduler matches the closed-form pipeline equations.
 

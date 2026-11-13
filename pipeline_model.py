@@ -18,6 +18,7 @@ import math
 from dataclasses import dataclass
 
 import torch
+from tabulate import tabulate
 
 STAGES = ('load', 'score', 'softmax', 'accumulate')
 
@@ -160,21 +161,8 @@ def main():
                          *(f'{u * 100:.1f}%' for u in result['utilization']),
                          f'{speedup:.3f}x'))
 
-    widths = [max(len(headers[i]), *(len(row[i]) for row in rows))
-              for i in range(len(headers))]
-
-    def format_row(row):
-        return ('| ' + ' | '.join(value.ljust(widths[i])
-                                  if i in (1, 4) else value.rjust(widths[i])
-                                  for i, value in enumerate(row)) + ' |')
-
-    border = '+-' + '-+-'.join('-' * width for width in widths) + '-+'
-    print(border)
-    print(format_row(headers))
-    print(border)
-    for row in rows:
-        print(format_row(row))
-    print(border)
+    print(tabulate(rows, headers=headers, tablefmt='outline', disable_numparse=True,
+                   colalign=('right', 'left') + ('right',) * 7))
 
 
 if __name__ == '__main__':
